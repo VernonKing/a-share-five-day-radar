@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#103b42">
+  <title>A股五日异动雷达</title>
+  <style>
+    :root{--ink:#17383d;--muted:#718386;--paper:#f4f5f0;--card:#fff;--line:#dce5df;--up:#d75f4e;--down:#168b78;--accent:#d5eddd;--gold:#c9a35c}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.55 "Microsoft YaHei","PingFang SC",Arial,sans-serif}
+    a{color:inherit;text-decoration:none}button,input{font:inherit}button{cursor:pointer}.wrap{max-width:1510px;margin:auto;padding:0 32px}
+    .mast{background:#103b42;color:#edf5ec;position:relative;overflow:hidden}.mast:before{content:"";position:absolute;width:580px;height:580px;border:1px solid #527078;border-radius:50%;right:-180px;top:-390px;box-shadow:0 0 0 110px #ffffff08,0 0 0 230px #ffffff05}
+    .top{display:flex;align-items:center;justify-content:space-between;padding:21px 0;border-bottom:1px solid #ffffff2d;position:relative}.brand{display:flex;align-items:center;gap:11px;font-size:16px;font-weight:750;letter-spacing:.04em}.brandmark{display:grid;place-items:center;width:33px;height:33px;background:#d1e9d8;color:#123c42;border-radius:7px;font-weight:900;font-size:20px;line-height:1}.topright{font-size:12px;color:#b6d3d0;display:flex;gap:17px;align-items:center}.live{display:flex;gap:7px;align-items:center}.live i{width:7px;height:7px;background:#9fdcb3;border-radius:50%;display:block;box-shadow:0 0 0 4px #9fdcb327}
+    .hero{padding:59px 0 54px;position:relative;display:grid;grid-template-columns:1fr auto;align-items:end;gap:35px}.eyebrow{text-transform:uppercase;font-size:11px;letter-spacing:.18em;color:#a8d4bc;font-weight:800;margin-bottom:14px}.hero h1{font-size:clamp(35px,4.2vw,62px);letter-spacing:-.06em;line-height:1.16;margin:0 0 16px;font-weight:800}.hero p{color:#bdd2cd;margin:0;max-width:650px}.hero strong{color:#fff;font-weight:650}.datebox{min-width:204px;border-left:1px solid #72918b;padding-left:25px}.datebox span{display:block;color:#a5c8bd;font-size:11px;letter-spacing:.12em}.datebox b{font-size:31px;line-height:1.25;display:block;margin:6px 0}.datebox small{font-size:12px;color:#afc7c3}
+    .main{padding:27px 0 90px}.statrow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}.stat{background:#fff;border:1px solid var(--line);border-radius:11px;padding:16px 20px;min-height:83px}.stat span{font-size:11px;color:var(--muted);display:block;margin-bottom:4px}.stat b{font-size:25px;letter-spacing:-.04em;font-weight:760}.stat small{font-size:12px;color:var(--muted);margin-left:6px}.controls{display:flex;gap:16px;align-items:center;justify-content:space-between;margin:0 0 24px;flex-wrap:wrap}.tabs{display:flex;gap:6px;flex-wrap:wrap}.tab,.side{border:1px solid #d9e3de;background:#fff;color:#526b6d;border-radius:7px;padding:9px 14px;font-size:12px;font-weight:700}.tab.active{color:#fff;background:#153f45;border-color:#153f45}.side.active{background:#fff4ee;color:#b14c3e;border-color:#eec6ba}.side.loss.active{background:#e7f5ef;color:#167c6a;border-color:#b8dfd0}.controlright{display:flex;gap:10px;align-items:center}.search{width:190px;border:1px solid #d9e3de;background:#fff;border-radius:7px;padding:9px 11px;outline:none;color:var(--ink)}.search:focus{border-color:#76a4a0}
+    .sectionhead{display:flex;align-items:baseline;justify-content:space-between;gap:15px;margin-bottom:17px}.sectionhead h2{font-size:25px;line-height:1.3;letter-spacing:-.035em;margin:0}.sectionhead p{font-size:12px;color:var(--muted);margin:0}.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}.stock{background:#fff;border:1px solid #dbe5df;border-radius:12px;overflow:hidden;box-shadow:0 3px 15px #203d3510}.stocktop{padding:21px 23px 15px;display:flex;justify-content:space-between;gap:10px}.stockid{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}.stockid h3{font-size:21px;letter-spacing:-.03em;margin:0;line-height:1.2}.code{font-size:12px;color:#8a9b9d;font-family:Consolas,monospace}.metric{text-align:right;white-space:nowrap}.metric b{font-size:22px;line-height:1;letter-spacing:-.045em}.metric.up b{color:var(--up)}.metric.down b{color:var(--down)}.metric small{display:block;color:#819294;font-size:11px;margin-top:5px}.subline{padding:0 23px 17px;display:flex;gap:14px;flex-wrap:wrap;color:#607477;font-size:11px}.subline strong{font-weight:700;color:#2e5256}.chartgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px 13px}.chartbox{background:#f8faf7;border:1px solid #edf0eb;border-radius:8px;padding:10px 9px 6px;min-width:0}.charttitle{display:flex;justify-content:space-between;align-items:center;padding:0 3px 4px;color:#3e6264;font-weight:750;font-size:11px}.charttitle span{font-weight:400;color:#9aaba8;font-size:10px}.chartbox svg{width:100%;height:137px;display:block;overflow:visible}.legend{display:flex;gap:9px;flex-wrap:wrap;font-size:9px;padding:3px;color:#85918f}.legend i{display:inline-block;width:10px;height:2px;vertical-align:middle;margin-right:3px}.product{border-top:1px solid #edf1eb;padding:13px 23px 15px;background:#fcfdfb;min-height:74px}.product .label{font-size:10px;letter-spacing:.1em;color:#96a7a0;font-weight:800;margin-bottom:4px}.product p{margin:0;color:#567071;font-size:11px}.product a{color:#2c7f75;text-decoration:underline;text-underline-offset:2px}.foot{border-top:1px solid #dce4de;margin-top:36px;padding-top:22px;color:#677b7c;font-size:12px}.foot h3{margin:0 0 8px;color:#244a4f;font-size:14px}.foot p{margin:5px 0}.foot a{text-decoration:underline;color:#247768}.empty{background:#fff;border:1px dashed #cbd9d1;border-radius:12px;padding:45px;text-align:center;color:#7c9290;grid-column:1/-1}.notice{background:#f0eee7;border-left:3px solid var(--gold);padding:10px 13px;margin:0 0 20px;color:#786d53;font-size:11px}
+    @media(max-width:1050px){.cards{grid-template-columns:1fr}.chartbox svg{height:165px}}@media(max-width:720px){.wrap{padding:0 16px}.hero{grid-template-columns:1fr;padding:43px 0 37px;gap:25px}.datebox{border-left:0;border-top:1px solid #72918b;padding:13px 0 0}.datebox b{font-size:23px}.topright .desktop{display:none}.statrow{grid-template-columns:repeat(2,1fr)}.controls{gap:12px}.controlright{width:100%;justify-content:space-between}.search{flex:1}.chartgrid{grid-template-columns:1fr}.chartbox svg{height:147px}.sectionhead{display:block}.sectionhead p{margin-top:4px}.stocktop{padding:18px 18px 12px}.subline{padding:0 18px 14px}.product{padding:12px 18px}.hero h1{font-size:38px}}
+  </style>
+</head>
+<body>
+<header class="mast"><div class="wrap"><div class="top"><div class="brand"><span class="brandmark">↗</span>A股五日异动雷达</div><div class="topright"><span class="desktop">化工 · 石化 · 北交所</span><span class="live"><i></i>盘后快照</span></div></div><div class="hero"><div><div class="eyebrow">Five-session market scanner</div><h1>看见变化，<br>读懂背后的品种。</h1><p>按现有周报 A 股股票池，筛选最近 <strong>5 个交易日</strong> 的领涨与领跌标的。日线、周线与均线同屏呈现，关联品种的变化线索单独标注。</p></div><div class="datebox"><span>最新市场日期 · AS OF</span><b id="asof">加载中</b><small id="range">正在读取行情快照</small></div></div></div></header>
+<main class="wrap main"><div class="statrow"><div class="stat"><span>覆盖股票</span><b id="universe">—</b><small>只</small></div><div class="stat"><span>有效样本</span><b id="eligible">—</b><small>只</small></div><div class="stat"><span>本期领涨</span><b id="topgain">—</b><small>%</small></div><div class="stat"><span>本期领跌</span><b id="toploss">—</b><small>%</small></div></div><div id="notice" class="notice" hidden></div><div class="controls"><div class="tabs" id="tabs"></div><div class="controlright"><button class="side active" data-side="gainers">涨幅榜 ↗</button><button class="side loss" data-side="losers">跌幅榜 ↘</button><input class="search" id="search" type="search" placeholder="搜索名称 / 代码" aria-label="搜索股票"></div></div><div class="sectionhead"><h2 id="sectiontitle">—</h2><p id="sectionnote">—</p></div><div class="cards" id="cards"><div class="empty">正在加载最新快照…</div></div><div class="foot"><h3>口径与来源</h3><p>五日涨跌幅 = 第 5 个交易日收盘价 ÷ 第 1 个交易日开盘价 − 1。基础化工按人民币市值严格大于 / 小于 200 亿元分组；各组涨跌榜分别独立排序。</p><p>日线显示 MA5、MA10、MA60；周线显示 MA5、MA10。沪深和北交所均要求可靠的前复权日线；缺少可靠前复权历史的股票不参与排名。各卡片可点开对应<a href="https://stockapp.finance.qq.com/mstats/" target="_blank" rel="noopener">行情来源</a>。缺失数据不做填补，本页不构成投资建议。</p><p id="updated">—</p></div></main>
+<script src="./feed-loader.js"></script>
+<script>
+const LABELS={chem_large:'基础化工 · 大市值',chem_small:'基础化工 · 小市值',oil:'石油石化',bj:'北交所'};
+const NOTES={chem_large:'市值 > 200 亿元 · 涨 / 跌各 3 只',chem_small:'市值 < 200 亿元 · 涨 / 跌各 5 只',oil:'不区分市值 · 涨 / 跌各 5 只',bj:'不区分市值 · 涨 / 跌各 3 只'};
+let data=null,products={},cloudSource='loading',bucket='chem_large',side='gainers',term='';
+const FEED_URL='https://raw.githubusercontent.com/VernonKing/a-share-five-day-radar-data/main/latest.json';
+const $=id=>document.getElementById(id),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function chart(bars,weekly){const a=bars.slice(weekly?-28:-60);if(!a.length)return '<div class="empty">暂无走势数据</div>';const W=370,H=136,L=6,R=34,T=12,B=19;const v=a.flatMap(d=>[d.high,d.low,weekly?d.ma5:d.ma5,weekly?d.ma10:d.ma10,...(weekly?[]:[d.ma60])]).filter(x=>Number.isFinite(x));let min=Math.min(...v),max=Math.max(...v);let pad=Math.max((max-min)*.09,.01);min-=pad;max+=pad;const y=x=>T+(max-x)/(max-min)*(H-T-B),dx=(W-L-R)/a.length,x=i=>L+i*dx+dx/2;let out=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${weekly?'周线':'日线'}K线及均线">`;
+for(let i=0;i<3;i++){let yy=T+i*(H-T-B)/2;out+=`<line x1="${L}" x2="${W-R}" y1="${yy}" y2="${yy}" stroke="#e7ede7"/><text x="${W-R+3}" y="${yy+3}" fill="#9aaba6" font-size="9">${(max-i*(max-min)/2).toFixed(1)}</text>`}
+a.forEach((d,i)=>{let color=d.close>=d.open?'#d75f4e':'#168b78',xx=x(i),w=Math.max(2,Math.min(7,dx*.58));out+=`<line x1="${xx}" x2="${xx}" y1="${y(d.high)}" y2="${y(d.low)}" stroke="${color}" stroke-width="1.1"/><rect x="${xx-w/2}" y="${Math.min(y(d.open),y(d.close))}" width="${w}" height="${Math.max(1,Math.abs(y(d.open)-y(d.close)))}" fill="${color}"/>`});
+for(const [key,color] of [['ma5','#d3a84f'],['ma10','#5c90bb'],...(weekly?[]:[['ma60','#9277b7']])]){let run=[];function flush(){if(run.length>1)out+=`<polyline points="${run.join(' ')}" fill="none" stroke="${color}" stroke-width="1.55" stroke-linejoin="round"/>`;run=[]}a.forEach((d,i)=>{if(Number.isFinite(d[key]))run.push(`${x(i)},${y(d[key])}`);else flush()});flush()}
+out+=`<text x="${L}" y="${H-2}" fill="#9aaba6" font-size="9">${a[0].date.slice(5)}</text><text x="${W-R-35}" y="${H-2}" fill="#9aaba6" font-size="9">${a.at(-1).date.slice(5)}</text></svg>`;return out}
+function chartBox(row,weekly){let bars=weekly?row.weekly:row.daily,names=weekly?['MA5','MA10']:['MA5','MA10','MA60'],partial=weekly&&bars.at(-1)?.partial;return `<div class="chartbox"><div class="charttitle">${weekly?'周线趋势':'日线走势'}<span>${partial?'本周进行中 · ':''}${weekly?'近 28 周':'近 60 日'}</span></div>${chart(bars,weekly)}<div class="legend">${names.map((n,i)=>`<span><i style="background:${['#d3a84f','#5c90bb','#9277b7'][i]}"></i>${n}${Number.isFinite(bars.at(-1)?.[n.toLowerCase()])?'':' · 历史不足'}</span>`).join('')}</div></div>`}
+function stockCard(row){let p=products[row.code]||{},isUp=row.return_pct>=0,rawCap=Number.isFinite(row.market_cap_yuan)?row.market_cap_yuan:row.market_cap,cap=Number.isFinite(rawCap)?(rawCap/1e8).toFixed(1)+' 亿元':'市值未取得',historySource=row.adjustment==='qfq_sina'?'新浪':'腾讯',pct=(isUp?'+':'')+row.return_pct.toFixed(2)+'%',product=p.product||'关联品种未取得',trend=p.trend||'近期品种日线趋势未取得；未发现明确可核实证据。',source=p.product_url?` <a href="${esc(p.product_url)}" target="_blank" rel="noopener">业务来源 ↗</a>`:'',trendSource=p.trend_url?` <a href="${esc(p.trend_url)}" target="_blank" rel="noopener">走势来源 ↗</a>`:'';return `<article class="stock"><div class="stocktop"><div class="stockid"><h3>${esc(row.name)}</h3><span class="code">${esc(row.code)}</span></div><div class="metric ${isUp?'up':'down'}"><b>${pct}</b><small>5 日收益</small></div></div><div class="subline"><span>最新价 <strong>¥${Number(row.last_price).toFixed(2)}</strong></span><span>总市值 <strong>${cap}</strong></span><span>行情 ${esc(row.quote_at||'时间未取得')}</span><span>前复权 · ${historySource}</span><a href="${esc(row.quote_url)}" target="_blank" rel="noopener">行情 ↗</a></div><div class="chartgrid">${chartBox(row,false)}${chartBox(row,true)}</div><div class="product"><div class="label">关联品种 · DAILY PRODUCT PULSE</div><p><strong>${esc(product)}</strong>｜${esc(trend)}${source}${trendSource}</p></div></article>`}
+function render(){if(!data)return;let rows=data.groups[bucket]?.[side]||[];if(term)rows=rows.filter(r=>(r.code+r.name).toLowerCase().includes(term));$('sectiontitle').textContent=`${LABELS[bucket]} · ${side==='gainers'?'涨幅榜':'跌幅榜'}`;$('sectionnote').textContent=NOTES[bucket];$('cards').innerHTML=rows.length?rows.map(stockCard).join(''):'<div class="empty">当前条件下暂无股票。若数据缺失，请查看下方口径说明。</div>';document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.bucket===bucket));document.querySelectorAll('.side').forEach(x=>x.classList.toggle('active',x.dataset.side===side))}
+async function init(){
+  try{
+    const bundle=await SiteFeed.loadBundle(fetch,FEED_URL);
+    data=bundle.snapshot;
+    products=bundle.products;
+    cloudSource=bundle.source;
+    $('asof').textContent=data.as_of;
+    const windows=data.market_windows;
+    $('range').textContent=`A股 ${windows.CN.window_start}—${windows.CN.as_of}`;
+    $('universe').textContent=data.stats.universe;
+    $('eligible').textContent=data.stats.eligible;
+    const all=Object.values(data.groups).flatMap(g=>[...g.gainers,...g.losers]);
+    const gains=all.filter(x=>x.return_pct>=0),loss=all.filter(x=>x.return_pct<0);
+    $('topgain').textContent=gains.length?Math.max(...gains.map(x=>x.return_pct)).toFixed(2):'—';
+    $('toploss').textContent=loss.length?Math.min(...loss.map(x=>x.return_pct)).toFixed(2):'—';
+    $('updated').textContent=`${cloudSource==='cloud'?'云端自动更新':'站内备用快照'} · 快照生成：${data.generated_at}（北京时间）。有效样本 ${data.stats.eligible}/${data.stats.universe}；抓取失败 ${data.stats.fetch_errors||0}，缺失数据未纳入排名。`;
+    const notices=[];
+    if(cloudSource==='fallback')notices.push(`云端最新数据暂时不可读取，当前显示 ${data.as_of} 的站内备用快照；请稍后刷新。`);
+    const s=data.stats;
+    if(s.fetch_errors||s.missing_history||s.stale_quote||s.unadjusted_history){
+      notices.push(`数据完整性：抓取失败 ${s.fetch_errors||0} 只、缺少日线 ${s.missing_history||0} 只、报价非本交易日 ${s.stale_quote||0} 只、复权历史不可用 ${s.unadjusted_history||0} 只；均未参与排名。`)
+    }
+    const nowChina=new Date(Date.now()+8*3600000),today=nowChina.toISOString().slice(0,10);
+    const date=new Date(`${data.as_of}T00:00:00Z`);
+    let missedWeekdays=0;
+    for(date.setUTCDate(date.getUTCDate()+1);date.toISOString().slice(0,10)<=today;date.setUTCDate(date.getUTCDate()+1)){
+      const weekday=date.getUTCDay(),day=date.toISOString().slice(0,10);
+      if(weekday!==0&&weekday!==6&&(day<today||nowChina.getUTCHours()>=16))missedWeekdays++;
+    }
+    if(missedWeekdays)notices.push(`尚无更新交易日快照，可能是休市或更新异常；当前保留 ${data.as_of} 数据。`);
+    const unmapped=[...new Set(all.filter(x=>!products[x.code]?.product).map(x=>x.code))];
+    if(unmapped.length)notices.push(`${unmapped.length} 只上榜股票暂缺可核实的关联品种，卡片中已明确标注。`);
+    if(notices.length){$('notice').hidden=false;$('notice').textContent=notices.join(' ')}
+    $('tabs').innerHTML=Object.entries(LABELS).map(([k,v])=>`<button class="tab ${k===bucket?'active':''}" data-bucket="${k}">${v}</button>`).join('');
+    $('tabs').addEventListener('click',e=>{let x=e.target.closest('.tab');if(x){bucket=x.dataset.bucket;render()}});
+    document.querySelectorAll('.side').forEach(x=>x.addEventListener('click',()=>{side=x.dataset.side;render()}));
+    $('search').addEventListener('input',e=>{term=e.target.value.trim().toLowerCase();render()});
+    render();
+  }catch(e){
+    $('cards').innerHTML=`<div class="empty">暂时无法读取盘后快照：${esc(e.message)}。请稍后刷新。</div>`;
+    $('asof').textContent='暂无数据';
+  }
+}
+init();
+</script>
+</body></html>
